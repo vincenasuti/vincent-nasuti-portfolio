@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Automated Supplier Inventory Monitor | Vincent Nasuti
+    </title>
+
+    <link rel="stylesheet" href="../style.css">
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+    <nav>
+
+        <div class="nav-container">
+
+            <h2 class="logo">VN</h2>
+
+            <ul class="nav-links">
+
+                <li><a href="../index.html#about">About</a></li>
+
+                <li><a href="../index.html#education">Education</a></li>
+
+                <li><a href="../index.html#experience">Experience</a></li>
+
+                <li><a href="../index.html#business">Business</a></li>
+
+                <li><a href="../index.html#projects">Projects</a></li>
+
+                <li><a href="../index.html#certifications">Certifications</a></li>
+
+                <li><a href="../index.html#contact">Contact</a></li>
+
+            </ul>
+
+        </div>
+
+    </nav>
+
+
+    <main>
+
+        <!-- Project Introduction -->
+        <section class="section project-intro">
+
+            <div class="section-heading">
+
+                <p class="section-label">
+                    Software Development / Business Automation
+                </p>
+
+                <h2>
+                    Automated Supplier Inventory Monitoring System
+                </h2>
+
+            </div>
+
+            <p class="project-intro-description">
+                A Python-based automation developed for VNTheJeweler LLC
+                to monitor supplier inventory, detect product availability
+                changes, and deliver automated daily email reports.
+            </p>
+
+            <div class="tags">
+
+                <span>Python</span>
+                <span>BeautifulSoup</span>
+                <span>HTTP Requests</span>
+                <span>JSON</span>
+                <span>GitHub Actions</span>
+                <span>SMTP</span>
+
+            </div>
+
+        </section>
+
+
+        <!-- Project Overview -->
+        <section class="section documentation-section">
+
+            <div class="section-heading">
+
+                <p class="section-label">Introduction</p>
+
+                <h2>Project Overview</h2>
+
+            </div>
+
+            <div class="card">
+
+                <p>
+                    As the founder and operator of VNTheJeweler,
+                    I identified a recurring challenge involving
+                    supplier inventory synchronization.
+                </p>
+
+                <p>
+                    Because certain products are fulfilled through
+                    external suppliers, changes in supplier stock
+                    availability can create discrepancies between
+                    the supplier's inventory and my online store.
+                </p>
+
+                <p>
+                    To address this problem, I developed an
+                    automated inventory monitoring system using
+                    Python that retrieves supplier stock data,
+                    compares inventory snapshots, and generates
+                    reports identifying changes in product
+                    availability.
+                </p>
+
+                <p>
+                    The system executes automatically through
+                    GitHub Actions, allowing inventory monitoring
+                    to continue without requiring a dedicated
+                    server or local computer.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- Business Problem -->
+        <section class="section documentation-section">
+
+            <div class="section-heading">
+
+                <p class="section-label">Business Challenge</p>
+
+                <h2>The Problem</h2>
+
+            </div>
+
+            <div class="card">
+
+                <p>
+                    Maintaining accurate inventory information
+                    is particularly challenging when operating
+                    a dropshipping business.
+                </p>
+
+                <p>
+                    Individual jewelry products may have multiple
+                    size variants, each with independent stock
+                    availability.
+                </p>
+
+                <p>
+                    Without automated monitoring, supplier
+                    inventory changes must be identified through
+                    repetitive manual checks.
+                </p>
+
+                <p>
+                    These discrepancies can result in customers
+                    purchasing products that are no longer
+                    available for fulfillment.
+                </p>
+
+                <p>
+                    I needed a reliable and scalable method to
+                    identify stock changes while minimizing
+                    manual intervention.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- Technical Solution -->
+        <section class="section documentation-section">
+
+            <div class="section-heading">
+
+                <p class="section-label">Implementation</p>
+
+                <h2>Technical Solution</h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>1. Automated Inventory Retrieval</h3>
+
+                <p>
+                    The application reads a CSV file containing
+                    supplier product URLs and descriptive product
+                    names.
+                </p>
+
+                <p>
+                    Using Python's requests library, the script
+                    retrieves product information from Shopify
+                    product JSON endpoints when available.
+                </p>
+
+                <p>
+                    BeautifulSoup provides an alternative method
+                    for extracting inventory information from
+                    HTML-based product pages.
+                </p>
+
+
+                <h3>2. Inventory State Management</h3>
+
+                <p>
+                    Each product variant is represented as a
+                    unique entry within a JSON data structure.
+                </p>
+
+                <p>
+                    The system maintains a persistent inventory
+                    snapshot that records the most recently
+                    observed availability of each product variant.
+                </p>
+
+                <p>
+                    This allows the application to compare
+                    inventory information across executions.
+                </p>
+
+
+                <h3>3. Change Detection</h3>
+
+                <p>
+                    During each execution, the application
+                    compares newly retrieved inventory data
+                    against the previous snapshot.
+                </p>
+
+                <p>
+                    The comparison identifies products that
+                    have returned to stock, become unavailable,
+                    or experienced changes in listed variants.
+                </p>
+
+                <div class="code-block">
+
+<pre><code>def diff(old, new, errored_skus):
+    changes = []
+
+    for key, now in new.items():
+
+        if key not in old:
+            changes.append(
+                f"NEW: {key}"
+            )
+
+        elif old[key] != now:
+            changes.append(
+                f"{'BACK IN STOCK' if now else 'WENT OUT OF STOCK'}: {key}"
+            )
+
+    return changes</code></pre>
+
+                </div>
+
+                <p>
+                    The code above illustrates the core
+                    change-detection logic used to identify
+                    differences between inventory snapshots.
+                </p>
+
+
+                <h3>4. Automated Email Reporting</h3>
+
+                <p>
+                    Following the inventory comparison,
+                    the application generates an email report
+                    summarizing changes in product availability.
+                </p>
+
+                <p>
+                    Reports are delivered through SMTP,
+                    allowing inventory discrepancies to be
+                    reviewed and addressed efficiently.
+                </p>
+
+                <div class="code-block">
+
+<pre><code>WENT OUT OF STOCK:
+Rope 7.5mm :: 28 / 113.6 (SAC0102-28)
+
+BACK IN STOCK:
+Miami Cuban 4.2mm :: 20 (SAC0164-20)</code></pre>
+
+                </div>
+
+
+                <h3>5. Cloud-Based Scheduling</h3>
+
+                <p>
+                    GitHub Actions executes the Python
+                    application on a daily schedule.
+                </p>
+
+                <p>
+                    Following execution, the updated
+                    inventory snapshot is committed to the
+                    repository, preserving the system's state
+                    between cloud executions.
+                </p>
+
+                <p>
+                    This approach eliminates the need to
+                    maintain a dedicated server or leave
+                    a local computer running.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- System Architecture -->
+        <section class="section documentation-section">
+
+            <div class="section-heading">
+
+                <p class="section-label">System Design</p>
+
+                <h2>System Architecture</h2>
+
+            </div>
+
+            <div class="card">
+
+                <p>
+                    The automation uses a scheduled workflow
+                    to retrieve supplier data, detect inventory
+                    changes, generate reports, and preserve
+                    inventory history between executions.
+                </p>
+
+                <div class="code-block">
+
+<pre><code>GitHub Actions
+      |
+      v
+stock_monitor.py
+      |
+      |---- skus.csv
+      |
+      |---- state.json
+      |
+      v
+Supplier Website
+      |
+      v
+Retrieve Product Variants
+      |
+      v
+Compare Inventory Snapshots
+      |
+      |-------------------|
+      v                   v
+Email Report       Update state.json
+                          |
+                          v
+                   Commit to GitHub</code></pre>
+
+                </div>
+
+                <p>
+                    The workflow is designed to operate
+                    independently while maintaining persistent
+                    inventory information between executions.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- Security -->
+        <section class="section documentation-section">
+
+            <div class="section-heading">
+
+                <p class="section-label">Security Engineering</p>
+
+                <h2>Security Considerations</h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Credential Management</h3>
+
+                <p>
+                    Email authentication credentials are stored
+                    in GitHub Actions Secrets rather than being
+                    embedded directly within the application's
+                    source code.
+                </p>
+
+                <p>
+                    During local development, environment
+                    variables are used to supply credentials
+                    at runtime.
+                </p>
+
+
+                <h3>Data Protection</h3>
+
+                <p>
+                    The operational repository is maintained
+                    privately to avoid publicly exposing
+                    supplier information and inventory records.
+                </p>
+
+
+                <h3>Error Handling</h3>
+
+                <p>
+                    The application distinguishes between
+                    confirmed inventory changes and failed
+                    supplier requests.
+                </p>
+
+                <p>
+                    If a supplier page cannot be retrieved,
+                    the system preserves the previously recorded
+                    inventory status and identifies the failed
+                    request in the report.
+                </p>
+
+                <p>
+                    This prevents temporary connection failures
+                    from generating misleading inventory alerts.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- Testing -->
+        <section class="section documentation-section">
+
+            <div class="section-heading">
+
+                <p class="section-label">Quality Assurance</p>
+
+                <h2>Testing & Validation</h2>
+
+            </div>
+
+            <div class="card">
+
+                <ul class="feature-list">
+
+                    <li>
+                        Implemented dry-run functionality to
+                        test inventory retrieval and reporting
+                        without sending email notifications.
+                    </li>
+
+                    <li>
+                        Manually verified retrieved inventory
+                        data against supplier product pages.
+                    </li>
+
+                    <li>
+                        Simulated inventory changes to validate
+                        change-detection accuracy.
+                    </li>
+
+                    <li>
+                        Verified that repeated executions
+                        without inventory changes generated
+                        appropriate no-change reports.
+                    </li>
+
+                    <li>
+                        Successfully executed the complete
+                        workflow through GitHub Actions.
+                    </li>
+
+                    <li>
+                        Validated email delivery and persistent
+                        inventory state management.
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </section>
+
+
+        <!-- Results -->
+        <section class="section documentation-section">
+
+            <div class="section-heading">
+
+                <p class="section-label">Project Outcomes</p>
+
+                <h2>Results & Business Impact</h2>
+
+            </div>
+
+            <div class="card">
+
+                <p>
+                    The completed automation provides a
+                    repeatable process for monitoring supplier
+                    inventory availability.
+                </p>
+
+                <ul class="feature-list">
+
+                    <li>
+                        Automated daily inventory checks.
+                    </li>
+
+                    <li>
+                        Reduced the need for repetitive manual
+                        supplier inventory verification.
+                    </li>
+
+                    <li>
+                        Established persistent inventory
+                        tracking across scheduled executions.
+                    </li>
+
+                    <li>
+                        Enabled faster identification of
+                        unavailable product variants.
+                    </li>
+
+                    <li>
+                        Implemented cloud-based automation
+                        without dedicated hosting infrastructure.
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </section>
+
+
+        <!-- Future Improvements -->
+        <section class="section documentation-section">
+
+            <div class="section-heading">
+
+                <p class="section-label">Future Development</p>
+
+                <h2>Planned Improvements</h2>
+
+            </div>
+
+            <div class="card">
+
+                <ul class="feature-list">
+
+                    <li>
+                        Integrate Shopify inventory APIs to
+                        compare supplier availability directly
+                        against store inventory.
+                    </li>
+
+                    <li>
+                        Implement automatic inventory
+                        synchronization.
+                    </li>
+
+                    <li>
+                        Develop historical inventory analytics
+                        and trend reporting.
+                    </li>
+
+                    <li>
+                        Introduce database-backed inventory
+                        history storage.
+                    </li>
+
+                    <li>
+                        Add direct product links to inventory
+                        change notifications.
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </section>
+
+
+        <!-- Return to Portfolio -->
+        <section class="section contact-section">
+
+            <a href="../index.html#projects"
+               class="button project-button">
+
+                Back to Projects
+
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 Vincent Nasuti.
+            Built and self-hosted on Raspberry Pi.
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

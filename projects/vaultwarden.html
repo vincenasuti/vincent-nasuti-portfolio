@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="A cybersecurity project documenting the deployment of a self-hosted Vaultwarden password manager, encrypted backups, and disaster recovery infrastructure.">
+
+    <title>Vaultwarden Password Manager | Vincent Nasuti</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <style>
+
+        /* Project Page Layout */
+
+        .project-page {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 120px 24px 80px;
+        }
+
+        .project-header {
+            margin-bottom: 55px;
+        }
+
+        .project-header h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.2;
+            margin: 15px 0 25px;
+        }
+
+        .project-header p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .project-section {
+            margin-bottom: 55px;
+        }
+
+        .project-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .project-section h3 {
+            font-size: 1.25rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .project-section p {
+            line-height: 1.85;
+            margin-bottom: 18px;
+        }
+
+        .project-section ul,
+        .project-section ol {
+            padding-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .project-section li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        .project-callout {
+            padding: 28px;
+            border-radius: 12px;
+            margin: 30px 0;
+            background: rgba(100, 150, 255, 0.08);
+            border-left: 4px solid #4f8cff;
+        }
+
+        .project-callout h3 {
+            margin-top: 0;
+        }
+
+        .architecture-diagram {
+            background: #101827;
+            color: #e5e7eb;
+            padding: 28px;
+            border-radius: 12px;
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin: 25px 0;
+            white-space: pre;
+        }
+
+        .project-code {
+            background: #101827;
+            color: #e5e7eb;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .project-code code {
+            font-family: monospace;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 25px 0;
+        }
+
+        .tech-stack span {
+            padding: 8px 14px;
+            border-radius: 20px;
+            background: rgba(100, 150, 255, 0.12);
+            font-size: 0.85rem;
+        }
+
+        .project-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+        }
+
+        .project-table th,
+        .project-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(150, 150, 150, 0.25);
+            vertical-align: top;
+        }
+
+        .project-table th {
+            font-weight: 600;
+        }
+
+        .project-navigation {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 50px;
+        }
+
+        .project-divider {
+            border: none;
+            border-top: 1px solid rgba(150, 150, 150, 0.2);
+            margin: 50px 0;
+        }
+
+        @media (max-width: 600px) {
+
+            .project-page {
+                padding: 100px 18px 60px;
+            }
+
+            .project-header h1 {
+                font-size: 2rem;
+            }
+
+            .project-table th,
+            .project-table td {
+                padding: 10px;
+                font-size: 0.85rem;
+            }
+
+            .architecture-diagram {
+                font-size: 0.75rem;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+
+    <nav>
+
+        <div class="nav-container">
+
+            <h2 class="logo">VN</h2>
+
+            <ul class="nav-links">
+
+                <li>
+                    <a href="../index.html#about">About</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#experience">Experience</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#projects">Projects</a>
+                </li>
+
+                <li>
+                    <a href="../index.html#contact">Contact</a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </nav>
+
+
+    <main class="project-page">
+
+
+        <!-- Project Header -->
+
+        <header class="project-header">
+
+            <p class="section-label">
+                Cybersecurity / Identity Security / Infrastructure
+            </p>
+
+            <h1>
+                Self-Hosted Password Manager
+                & Automated Disaster Recovery
+            </h1>
+
+            <p>
+                <strong>
+                    Identifying and addressing password reuse
+                    within VNTheJeweler through a self-hosted,
+                    security-focused password management solution.
+                </strong>
+            </p>
+
+            <p>
+                This project documents the design, deployment,
+                and security configuration of a Vaultwarden
+                password management platform hosted on a
+                Raspberry Pi 5.
+            </p>
+
+            <p>
+                The implementation includes containerization,
+                secure remote access, multifactor authentication,
+                encrypted off-site backups, automated recovery
+                processes, and external backup monitoring.
+            </p>
+
+            <div class="tech-stack">
+
+                <span>Vaultwarden</span>
+                <span>Raspberry Pi 5</span>
+                <span>Linux</span>
+                <span>Docker</span>
+                <span>Cloudflare Tunnel</span>
+                <span>SQLite</span>
+                <span>Restic</span>
+                <span>Rclone</span>
+                <span>Google Drive</span>
+                <span>Systemd</span>
+                <span>Healthchecks.io</span>
+
+            </div>
+
+        </header>
+
+
+        <hr class="project-divider">
+
+
+        <!-- Business Problem -->
+
+        <section class="project-section">
+
+            <p class="section-label">
+                01 / Risk Identification
+            </p>
+
+            <h2>
+                The Business Problem: Password Reuse
+            </h2>
+
+            <p>
+                As the founder and operator of VNTheJeweler,
+                I manage numerous accounts across e-commerce
+                marketplaces, financial platforms, business
+                services, supplier websites, and other
+                operational systems.
+            </p>
+
+            <p>
+                While reviewing my business's account security
+                practices, I identified a recurring issue:
+                passwords were being reused across multiple
+                business accounts.
+            </p>
+
+            <p>
+                Although password reuse may simplify account
+                management, it creates a significant
+                cybersecurity risk. If a reused password
+                becomes compromised through a data breach,
+                phishing attack, or credential theft,
+                an attacker may attempt to use that
+                same password to access additional accounts.
+            </p>
+
+            <p>
+                For an e-commerce business, unauthorized
+                account access could potentially expose
+                customer information, disrupt business
+                operations, compromise financial accounts,
+                or result in fraudulent transactions.
+            </p>
+
+            <div class="project-callout">
+
+                <h3>
+                    Identified Security Risk
+                </h3>
+
+                <p>
+                    Reusing passwords across business
+                    accounts increases exposure to
+                    credential-stuffing attacks and
+                    creates unnecessary dependencies
+                    between otherwise separate systems.
+                </p>
+
+                <p>
+                    <strong>
+                        My objective was to eliminate the
+                        operational need for password reuse
+                        by implementing a centralized
+                        password management solution.
+                    </strong>
+                </p>
+
+            </div>
+
+            <p>
+                Rather than relying solely on manually
+                changing passwords, I wanted to develop
+                a sustainable solution that would make
+                generating, storing, and retrieving unique
+                credentials practical for everyday
+                business operations.
+            </p>
+
+        </section>
+
+
+        <hr class="project-divider">
+
+
+        <!-- Objectives -->
+
+        <section class="project-section">
+
+            <p class="section-label">
+                02 / Project Planning
+            </p>
+
+            <h2>
+                Project Objectives
+            </h2>
+
+            <p>
+                The primary objective was to address
+                the password reuse problem while
+                gaining hands-on experience deploying
+                and securing a production-style
+                application.
+            </p>
+
+            <ul>
+
+                <li>
+                    Implement a centralized password
+                    management platform.
+                </li>
+
+                <li>
+                    Support unique, randomly generated
+                    passwords for business accounts.
+                </li>
+
+                <li>
+                    Maintain control over the hosting
+                    infrastructure and application data.
+                </li>
+
+                <li>
+                    Provide secure remote access
+                    across multiple devices.
+                </li>
+
+                <li>
+                    Implement multifactor authentication
+                    and restrict unauthorized registration.
+                </li>
+
+                <li>
+                    Develop encrypted off-site backups
+                    to reduce the risk of data loss.
+                </li>
+
+                <li>
+                    Automate backup scheduling,
+                    retention, and failure recovery.
+                </li>
+
+                <li>
+                    Implement external monitoring
+                    to detect unsuccessful backups.
+                </li>
+
+                <li>
+                    Validate the integrity of
+                    restored backup data.
+                </li>
+
+            </ul>
+
+        </section>
+
+
+        <hr class="project-divider">
+
+
+        <!-- Architecture -->
+
+        <section class="project-section">
+
+            <p class="section-label">
+                03 / Infrastructure Design
+            </p>
+
+            <h2>
+                System Architecture
+            </h2>
+
+            <p>
+                The solution is hosted on a Raspberry Pi 5
+                running a Linux-based operating system.
+                Docker is used to isolate and manage
+                the application services.
+            </p>
+
+            <p>
+                Vaultwarden and Cloudflared operate
+                in separate containers connected
+                through a shared Docker bridge network.
+            </p>
+
+            <p>
+                Cloudflare Tunnel provides external
+                HTTPS access without requiring inbound
+                port forwarding on the home router.
+            </p>
+
+            <div class="architecture-diagram">Client Device
+     |
+     | HTTPS
+     v
+Cloudflare Network
+     |
+     | Cloudflare Tunnel
+     v
+Raspberry Pi 5
+     |
+     +----------------------------------+
+     | Docker Network                   |
+     |                                  |
+     | Cloudflared Container            |
+     |          |                       |
+     |          v                       |
+     | Vaultwarden Container            |
+     |          |                       |
+     +----------|-----------------------+
+                |
+                v
+       Persistent Application Data
+                |
+                v
+         SQLite Backup
+                |
+                v
+         Restic Encryption
+                |
+                v
+              Rclone
+                |
+                v
+           Google Drive
+                |
+                v
+       Healthchecks Success Ping
+                |
+                v
+        External Monitoring</div>
+
+            <h3>
+                Infrastructure Components
+            </h3>
+
+            <table class="project-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Technology</th>
+                        <th>Purpose</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Raspberry Pi 5</td>
+                        <td>Physical application host</td>
+                    </tr>
+
+                    <tr>
+                        <td>Docker</td>
+                        <td>Containerized application deployment</td>
+                    </tr>
+
+                    <tr>
+                        <td>Vaultwarden</td>
+                        <td>Self-hosted password management</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cloudflare Tunnel</td>
+                        <td>Secure remote connectivity</td>
+                    </tr>
+
+                    <tr>
+                        <td>SQLite</td>
+                        <td>Application database</td>
+                    </tr>
+
+                    <tr>
+                        <td>Restic</td>
+                        <td>Encrypted backup repository</td>
+                    </tr>
+
+                    <tr>
+                        <td>Rclone</td>
+                        <td>Google Drive integration</td>
+                    </tr>
+
+                    <tr>
+                        <td>Systemd</td>
+                        <td>Backup automation and retries</td>
+                    </tr>
+
+                    <tr>
+                        <td>Healthchecks.io</td>
+                        <td>Backup execution monitoring</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <hr class="project-divider">
+
+
+        <!-- Deployment -->
+
+        <section class="project-section">
+
+            <p class="section-label">
+                04 / Implementation
+            </p>
+
+            <h2>
+                Containerized Application Deployment
+            </h2>
+
+            <p>
+                Vaultwarden was deployed using Docker Compose,
+                allowing the application to run independently
+                from other services hosted on the Raspberry Pi.
+            </p>
+
+            <p>
+                Persistent storage was configured to preserve
+                application data across container restarts
+                and updates.
+            </p>
+
+            <p>
+                The Vaultwarden container was connected
+                to an existing Docker network shared
+                with the Cloudflared container.
+            </p>
+
+            <h3>
+                Internal Container Communication
+            </h3>
+
+            <p>
+                Cloudflared communicates with Vaultwarden
+                using Docker's internal networking and
+                container name resolution.
+            </p>
+
+            <pre class="project-code"><code>http://vaultwarden:80</code></pre>
+
+            <p>
+                This approach allows Cloudflared to reach
+                Vaultwarden without requiring the application
+                to be directly exposed through a router
+                port-forwarding rule.
+            </p>
+
+            <h3>
+                Secure External Connectivity
+            </h3>
+
+            <p>
+                A dedicated Cloudflare Tunnel hostname
+                was configured for the password manager.
+            </p>
+
+            <p>
+                Incoming HTTPS requests are routed
+                through Cloudflare to the Cloudflared
+                connector, which forwards requests
+                to the Vaultwarden container.
+            </p>
+
+            <p>
+                This design provides remote accessibility
+                while reducing direct exposure of
+                the home network to inbound connections.
+            </p>
+
+        </section>
+
+
+        <hr class="project-divider">
+
+
+        <!-- Security -->
+
+        <section class="project-section">
+
+            <p class="section-label">
+                05 / Security Controls
+            </p>
+
+            <h2>
+                Security Implementation
+            </h2>
+
+            <h3>
+                Multifactor Authentication
+            </h3>
+
+            <p>
+                Two-factor authentication was enabled
+                to provide an additional authentication
+                requirement beyond the account's
+                master password.
+            </p>
+
+            <h3>
+                Restricted Account Registration
+            </h3>
+
+            <p>
+                Public account registration was disabled
+                to prevent unauthorized users from
+                creating accounts on the self-hosted
+                application.
+            </p>
+
+            <pre class="project-code"><code>SIGNUPS_ALLOWED=false</code></pre>
+
+            <h3>
+                Encrypted Backup Storage
+            </h3>
+
+            <p>
+                Backup data is encrypted using Restic
+                before being uploaded to Google Drive.
+            </p>
+
+            <p>
+                This provides confidentiality for
+                off-site backup data while reducing
+                reliance on the cloud storage provider's
+                access controls alone.
+            </p>
+
+            <h3>
+                Restricted File Permissions
+            </h3>
+
+            <p>
+                Sensitive local configuration files,
+                including the backup encryption
+                password, were protected using
+                restrictive Linux file permissions.
+            </p>
+
+            <h3>
+                Defense in Depth
+            </h3>
+
+            <p>
+                The solution combines multiple
+                security controls rather than
+                relying on a single protective
+                mechanism.
+            </p>
+
+            <ul>
+
+                <li>HTTPS connectivity</li>
+
+                <li>Multifactor authentication</li>
+
+                <li>Restricted account registration</li>
+
+                <li>Containerized deployment</li>
+
+                <li>Encrypted off-site backups</li>
+
+                <li>Restricted access to sensitive files</li>
+
+                <li>External backup monitoring</li>
+
+            </ul>
+
+        </section>
+
+
+        <hr class="project-divider">
+
+
+        <!-- Backup Automation -->
+
+        <section class="project-section">
+
+            <p class="section-label">
+                06 / Backup Engineering
+            </p>
+
+            <h2>
+                Automated Backup & Disaster Recovery
+            </h2>
+
+            <p>
+                A significant component of the project
+                involved designing an automated backup
+                solution to protect the password
+                manager's application data.
+            </p>
+
+            <p>
+                Because a self-hosted password manager
+                can become a critical dependency for
+                accessing business accounts, reliable
+                backups are essential.
+            </p>
+
+            <h3>
+                Database Backup
+            </h3>
+
+            <p>
+                Vaultwarden uses SQLite for its
+                application database.
+            </p>
+
+            <p>
+                To avoid copying an actively
+                changing database file directly,
+                the backup script uses SQLite's
+                built-in backup functionality.
+            </p>
+
+            <pre class="project-code"><code>sqlite3 "$DATA_DIR/db.sqlite3" \
+  ".backup '$STAGING_DIR/db.sqlite3'"</code></pre>
+
+            <p>
+                This creates a consistent database
+                snapshot while the application
+                remains operational.
+            </p>
+
+            <h3>
+                Encrypted Cloud Backups
+            </h3>
+
+            <p>
+                Restic encrypts the backup data
+                and manages the backup repository.
+            </p>
+
+            <p>
+                Rclone provides connectivity
+                between the Raspberry Pi and
+                Google Drive.
+            </p>
+
+            <p>
+                The repository is stored remotely,
+                providing an additional recovery
+                option if the Raspberry Pi or its
+                local storage becomes unavailable.
+            </p>
+
+            <h3>
+                Automated Scheduling
+            </h3>
+
+            <p>
+                A systemd timer executes the
+                backup service daily at 3:00 AM.
+            </p>
+
+            <pre class="project-code"><code>[Timer]
+OnCalendar=*-*-* 03:00:00
+Persistent=true
+Unit=vaultwarden-backup.service</code></pre>
+
+            <p>
+                The persistent timer configuration
+                allows a missed scheduled backup
+                to run after the host becomes
+                available again.
+            </p>
+
+            <h3>
+                Backup Retention Policy
+            </h3>
+
+            <p>
+                Restic was configured to retain
+                historical backup snapshots
+                across multiple time periods.
+            </p>
+
+            <table class="project-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Backup Type</th>
+                        <th>Retention</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Daily</td>
+                        <td>7 snapshots</td>
+                    </tr>
+
+                    <tr>
+                        <td>Weekly</td>
+                        <td>4 snapshots</td>
+                    </tr>
+
+                    <tr>
+                        <td>Monthly</td>
+                        <td>6 snapshots</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <pre class="project-code"><code>restic forget \
+  --tag vaultwarden \
+  --group-by host,tags \
+  --keep-daily 7 \
+  --keep-weekly 4 \
+  --keep-monthly 6 \
+  --prune</code></pre>
+
+            <p>
+                The retention policy balances
+                historical recovery options
+                with storage management.
+            </p>
+
+            <h3>
+                Automatic Failure Recovery
+            </h3>
+
+            <p>
+                Systemd was configured to retry
+                failed backup operations after
+                a five-minute delay.
+            </p>
+
+            <pre class="project-code"><code>Restart=on-failure
+RestartSec=5min
+
+StartLimitIntervalSec=30min
+StartLimitBurst=3</code></pre>
+
+            <p>
+                Rate limiting helps prevent
+                excessive repeated attempts
+                during extended failures.
+            </p>
+
+        </section>
+
+
+        <hr class="project-divider">
+
+
+        <!-- Monitoring -->
+
+        <section class="project-section">
+
+            <p class="section-label">
+                07 / Monitoring
+            </p>
+
+            <h2>
+                Backup Monitoring & Alerting
+            </h2>
+
+            <p>
+                Automated backups are only useful
+                if failures can be detected.
+            </p>
+
+            <p>
+                To improve visibility into the
+                backup process, I integrated
+                Healthchecks.io.
+            </p>
+
+            <p>
+                After the backup script successfully
+                uploads the encrypted data and
+                applies the retention policy,
+                it sends an HTTPS request to
+                a monitoring endpoint.
+            </p>
+
+            <p>
+                Healthchecks.io monitors these
+                check-ins and can generate email
+                alerts when expected backups
+                fail to report success.
+            </p>
+
+            <div class="project-callout">
+
+                <h3>
+                    Monitoring Design
+                </h3>
+
+                <p>
+                    The monitoring service operates
+                    independently of the Raspberry Pi.
+                </p>
+
+                <p>
+                    This allows missed backup
+                    executions to be detected
+                    even when the host itself
+                    becomes unavailable.
+                </p>
+
+            </div>
+
+            <p>
+                The monitoring endpoint is stored
+                separately from the backup script
+                to avoid unnecessarily exposing
+                the URL in project source code.
+            </p>
+
+        </section>
+
+
+        <hr class="project-divider">
+
+
+        <!-- Testing -->
+
+        <section class="project-section">
+
+            <p class="section-label">
+                08 / Validation
+            </p>
+
+            <h2>
+                Testing & Verification
+            </h2>
+
+            <p>
+                Multiple tests were performed
+                to validate the application's
+                functionality and backup
+                infrastructure.
+            </p>
+
+            <h3>
+                Application Accessibility
+            </h3>
+
+            <p>
+                Verified that the Vaultwarden
+                application was accessible
+                through the configured
+                Cloudflare Tunnel hostname.
+            </p>
+
+            <h3>
+                Authentication Controls
+            </h3>
+
+            <p>
+                Confirmed that multifactor
+                authentication was enabled
+                and public account registration
+                was disabled.
+            </p>
+
+            <h3>
+                Backup Execution
+            </h3>
+
+            <p>
+                Executed the backup service
+                manually and verified
+                successful completion
+                through systemd logs.
+            </p>
+
+            <h3>
+                Backup Restoration
+            </h3>
+
+            <p>
+                Restored an encrypted backup
+                snapshot to a temporary
+                recovery directory.
+            </p>
+
+            <p>
+                The restored SQLite database
+                was tested using:
+            </p>
+
+            <pre class="project-code"><code>PRAGMA integrity_check;</code></pre>
+
+            <p>
+                The database returned:
+            </p>
+
+            <pre class="project-code"><code>ok</code></pre>
+
+            <p>
+                This confirmed that the restored
+                database passed SQLite's
+                integrity validation.
+            </p>
+
+            <p>
+                A complete application-level
+                disaster recovery test remains
+                a future improvement.
+            </p>
+
+            <h3>
+                Monitoring Validation
+            </h3>
+
+            <p>
+                Sent a test request to the
+                Healthchecks.io endpoint
+                and verified that the
+                monitoring dashboard
+                reported a healthy status.
+            </p>
+
+        </section>
+
+
+        <hr class="project-divider">
+
+
+        <!-- Troubleshooting -->
+
+        <section class="project-section">
+
+            <p class="section-label">
+                09 / Troubleshooting
+            </p>
+
+            <h2>
+                Challenges & Troubleshooting
+            </h2>
+
+            <h3>
+                Restic / Rclone Connection Timeout
+            </h3>
+
+            <p>
+                During implementation, an automated
+                backup failed when Restic timed out
+                while attempting to communicate
+                with the remote Google Drive
+                repository through Rclone.
+            </p>
+
+            <p>
+                I investigated the failure
+                using systemd service status
+                information and journal logs.
+            </p>
+
+            <pre class="project-code"><code>systemctl status vaultwarden-backup.service
+
+journalctl -u vaultwarden-backup.service -n 50</code></pre>
+
+            <p>
+                The logs identified a timeout
+                while Restic attempted to
+                access the remote repository.
+            </p>
+
+            <p>
+                I tested Google Drive connectivity
+                independently using Rclone,
+                then verified repository
+                accessibility through Restic.
+            </p>
+
+            <p>
+                Both connectivity tests succeeded,
+                and a subsequent backup completed
+                successfully.
+            </p>
+
+            <p>
+                This troubleshooting process
+                reinforced the importance
+                of validating individual
+                infrastructure components
+                before modifying an
+                otherwise functional
+                configuration.
+            </p>
+
+        </section>
+
+
+        <hr class="project-divider">
+
+
+        <!-- Results -->
+
+        <section class="project-section">
+
+            <p class="section-label">
+                10 / Project Outcome
+            </p>
+
+            <h2>
+                Security Impact & Lessons Learned
+            </h2>
+
+            <p>
+                The project established a
+                centralized password management
+                platform intended to replace
+                password reuse across
+                VNTheJeweler's business accounts.
+            </p>
+
+            <p>
+                By providing a practical method
+                for generating and storing
+                unique credentials, the
+                solution supports stronger
+                account security practices.
+            </p>
+
+            <p>
+                The implementation also provided
+                hands-on experience with
+                several important cybersecurity
+                and infrastructure concepts.
+            </p>
+
+            <ul>
+
+                <li>
+                    Identifying security risks
+                    within business operations.
+                </li>
+
+                <li>
+                    Translating security concerns
+                    into technical requirements.
+                </li>
+
+                <li>
+                    Deploying containerized
+                    applications on Linux.
+                </li>
+
+                <li>
+                    Configuring secure remote
+                    application access.
+                </li>
+
+                <li>
+                    Implementing authentication
+                    and access restrictions.
+                </li>
+
+                <li>
+                    Developing automated,
+                    encrypted backup workflows.
+                </li>
+
+                <li>
+                    Validating backup integrity
+                    through restoration testing.
+                </li>
+
+                <li>
+                    Integrating external
+                    monitoring and alerting.
+                </li>
+
+                <li>
+                    Troubleshooting failures
+                    across interconnected services.
+                </li>
+
+            </ul>
+
+            <div class="project-callout">
+
+                <h3>
+                    Key Takeaway
+                </h3>
+
+                <p>
+                    This project demonstrates
+                    my ability to recognize
+                    a real-world cybersecurity
+                    concern, design a practical
+                    technical solution, deploy
+                    supporting infrastructure,
+                    and implement controls
+                    to improve reliability
+                    and data protection.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <hr class="project-divider">
+
+
+        <!-- Future Improvements -->
+
+        <section class="project-section">
+
+            <p class="section-label">
+                11 / Future Development
+            </p>
+
+            <h2>
+                Future Improvements
+            </h2>
+
+            <ul>
+
+                <li>
+                    Complete a full application-level
+                    disaster recovery test.
+                </li>
+
+                <li>
+                    Improve incremental backup
+                    efficiency through consistent
+                    backup paths.
+                </li>
+
+                <li>
+                    Implement additional monitoring
+                    for container health and availability.
+                </li>
+
+                <li>
+                    Integrate application and
+                    system logs with a centralized
+                    security monitoring platform.
+                </li>
+
+                <li>
+                    Develop a regular application
+                    patching and maintenance process.
+                </li>
+
+                <li>
+                    Evaluate additional access
+                    controls for the publicly
+                    accessible login interface.
+                </li>
+
+            </ul>
+
+        </section>
+
+
+        <!-- Navigation Buttons -->
+
+        <div class="project-navigation">
+
+            <a href="../index.html#projects"
+               class="button primary-button">
+
+                ← Back to Projects
+
+            </a>
+
+            <a href="../index.html#contact"
+               class="button secondary-button">
+
+                Contact Me
+
+            </a>
+
+        </div>
+
+
+    </main>
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <p>
+            © 2026 Vincent Nasuti.
+            Built and self-hosted on Raspberry Pi.
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>
